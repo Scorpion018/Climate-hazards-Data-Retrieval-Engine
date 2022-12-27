@@ -10,7 +10,7 @@
 //   }
 // );
 
-// function initMap(lat, lng) {
+//  initMap=(lat, lng)=> {
 //   var myLatLng = {
 //     lat,
 //     lng,
@@ -25,12 +25,30 @@
 //   });
 // }
 
+// initMap=(lat, lng)=> {
+//   var myLatLng = {
+//     lat,
+//     lng,
+//   };
+//   var div = document.createElement('div');
+//   var map = new google.maps.Map(div.innerHTML, {
+//     zoom: 15,
+//     center: myLatLng,
+//   });
+//   var marker = new google.maps.Marker({
+//     position: myLatLng,
+//     map: map,
+//   });
+//   document.body.appendChild(div);
+// }
+
 isEmpty = obj => {
   return Object.keys(obj).length === 0;
 }
 
 getGeoLocation = (lat , lng) =>{
   console.log(`Latitude => ${lat} , Langitude => ${lng}`)
+  // initMap(lat , lng)
 }
 
 // function getLoc(lat , lng){

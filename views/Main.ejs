@@ -26,38 +26,42 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqgZXdzQBgmeEb_2qniK2Js3abzYdIshg&callback=initMap">
     </script>
   <script>
+
     // navigator.geolocation.getCurrentPosition(
-    //   function () {
-    //     initMap(39.248898, -104.968567);
+    //   function newMap(lati, longi) {
+    //     initMap(lati, longi);
     //   },
     //   function errorCallback(error) {
     //     console.log(error);
     //   }
     // );
 
-    // function initMap(lat, lng) {
-    //   var myLatLng = {
-    //     // lat: 39.248898,
-    //     // lng: -104.968567,
-    //     lat,
-    //     lng
-    //   };
-    //   var map = new google.maps.Map(document.getElementById("map"), {
-    //     zoom: 15,
-    //     center: myLatLng,
-    //   });
-    //   var marker = new google.maps.Marker({
-    //     position: myLatLng,
-    //     map: map,
-    //   });
-    // }
+    // initMap(39.248898, -104.968567);
+
+    function initMap(lat, lng) {
+      var myLatLng = {
+        lat: 39.248898,
+        lng: -104.968567,
+        // lat,
+        // lng
+      };
+      var map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: myLatLng,
+      });
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+      });
+    }
   </script>
   <div>
     <div id="map" style="width: 700px; height: 360px;">
     </div>
+
     <table class="center">
       <tr>
-        <th>Console Data</th>
+        <!-- <th>Console Data</th> -->
         <th>latitude</th>
         <th>Longitude</th>
         <th>Address</th>
@@ -68,18 +72,14 @@
         <th>Storm Risk</th>
         <th>Wild Fire Risk</th>
         <th>Drought Score</th>
-        <th>Flood Risk</th>
         <th>Total Risk</th>
       </tr>
       <%path.forEach(function(details){%>
         <tr style="text-align:center;">
-          <td>
-            <%= function (lat, lng) { var myLatLng={ lat: details.propertylatitude, lng: details.propertylongitude}; var
-              div=document.createElement('div'); var map=new google.maps.Map(div.innerHTML, { zoom: 15, center:
-              myLatLng, }); var marker=new google.maps.Marker({ position: myLatLng, map: map, }); } %>
-              <div id="map" style="width: 700px; height: 360px;">
-              </div>
-          </td>
+          <!-- <td>
+            <div id="map" style="width: 700px; height: 360px;">
+            </div>
+          </td> -->
           <td>
             <%= details.propertylatitude %>
           </td>
@@ -99,22 +99,142 @@
             <%= details.propertyaddresszip %>
           </td>
           <td>
-            <%= details.heatriskscore %>
+            <%if(details.heatriskscore < 19){ %>
+              <div class="tooltip">
+                <span class="tooltiptext">Low</span>
+              </div>
+              <%} else if(details.heatriskscore < 39) {%>
+                <div class="tooltip">
+                  <span class="tooltiptext">Significant</span>
+                </div>
+                <%} else if(details.heatriskscore < 59) {%>
+                  <div class="tooltip">
+                    <span class="tooltiptext">High</span>
+                  </div>
+                  <%} else if(details.heatriskscore < 79) {%>
+                    <div class="tooltip">
+                      <span class="tooltiptext">Very High</span>
+                    </div>
+                    <%} else {%>
+                      <div class="tooltip">
+                        <span class="tooltiptext">Extreme</span>
+                      </div>
+                      <%}%>
           </td>
           <td>
-            <%= details.stormriskscore %>
+            <%if(details.stormriskscore < 19){ %>
+              <div class="tooltip">
+                <span class="tooltiptext">Low</span>
+              </div>
+              <%} else if(details.stormriskscore < 39) {%>
+                <div class="tooltip">
+                  <span class="tooltiptext">Significant</span>
+                </div>
+                <%} else if(details.stormriskscore < 59) {%>
+                  <div class="tooltip">
+                    <span class="tooltiptext">High</span>
+                  </div>
+                  <%} else if(details.stormriskscore < 79) {%>
+                    <div class="tooltip">
+                      <span class="tooltiptext">Very High</span>
+                    </div>
+                    <%} else {%>
+                      <div class="tooltip">
+                        <span class="tooltiptext">Extreme</span>
+                      </div>
+                      <%}%>
           </td>
           <td>
-            <%= details.wildfireriskscore %>
+            <%if(details.wildfireriskscore < 19){ %>
+              <div class="tooltip">
+                <span class="tooltiptext">Low</span>
+              </div>
+              <%} else if(details.wildfireriskscore < 39) {%>
+                <div class="tooltip">
+                  <span class="tooltiptext">Significant</span>
+                </div>
+                <%} else if(details.wildfireriskscore < 59) {%>
+                  <div class="tooltip">
+                    <span class="tooltiptext">High</span>
+                  </div>
+                  <%} else if(details.wildfireriskscore < 79) {%>
+                    <div class="tooltip">
+                      <span class="tooltiptext">Very High</span>
+                    </div>
+                    <%} else {%>
+                      <div class="tooltip">
+                        <span class="tooltiptext">Extreme</span>
+                      </div>
+                      <%}%>
           </td>
           <td>
-            <%= details.droughtriskscore %>
+            <%if(details.droughtriskscore < 19){ %>
+              <div class="tooltip">
+                <span class="tooltiptext">Low</span>
+              </div>
+              <%} else if(details.droughtriskscore < 39) {%>
+                <div class="tooltip">
+                  <span class="tooltiptext">Significant</span>
+                </div>
+                <%} else if(details.droughtriskscore < 59) {%>
+                  <div class="tooltip">
+                    <span class="tooltiptext">High</span>
+                  </div>
+                  <%} else if(details.droughtriskscore < 79) {%>
+                    <div class="tooltip">
+                      <span class="tooltiptext">Very High</span>
+                    </div>
+                    <%} else {%>
+                      <div class="tooltip">
+                        <span class="tooltiptext">Extreme</span>
+                      </div>
+                      <%}%>
           </td>
           <td>
-            <%= details.floodriskscore %>
+            <%if(details.floodriskscore < 19){ %>
+              <div class="tooltip">
+                <span class="tooltiptext">Low</span>
+              </div>
+              <%} else if(details.floodriskscore < 39) {%>
+                <div class="tooltip">
+                  <span class="tooltiptext">Significant</span>
+                </div>
+                <%} else if(details.floodriskscore < 59) {%>
+                  <div class="tooltip">
+                    <span class="tooltiptext">High</span>
+                  </div>
+                  <%} else if(details.floodriskscore < 79) {%>
+                    <div class="tooltip">
+                      <span class="tooltiptext">Very High</span>
+                    </div>
+                    <%} else {%>
+                      <div class="tooltip">
+                        <span class="tooltiptext">Extreme</span>
+                      </div>
+                      <%}%>
           </td>
           <td>
-            <%= details.totalrisk %>
+            <%if(details.totalrisk < 19){ %>
+              <div class="tooltip">
+                <span class="tooltiptext">Low</span>
+              </div>
+              <%} else if(details.totalrisk < 39) {%>
+                <div class="tooltip">
+                  <span class="tooltiptext">Significant</span>
+                </div>
+                <%} else if(details.totalrisk < 59) {%>
+                  <div class="tooltip">
+                    <span class="tooltiptext">High</span>
+                  </div>
+                  <%} else if(details.totalrisk < 79) {%>
+                    <div class="tooltip">
+                      <span class="tooltiptext">Very High</span>
+                    </div>
+                    <%} else {%>
+                      <div class="tooltip">
+                        <span class="tooltiptext">Extreme</span>
+                      </div>
+                      <%}%>
           </td>
         </tr>
         <%})%>

@@ -30,28 +30,30 @@ app.get("/", (req, res) => {
 });
 
 app.post('/climate', (req, res) => {
-console.log(req.body.addressC)
 let addr = ''
 if(req.body.addressC){
   addr = req.body.addressC.toUpperCase()
 }
   let sql = ``
   if(req.body.zipCode && req.body.addressC === ''){
-    console.log('1')
     sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}'`
   } else if(req.body.addressC && req.body.zipCode === ''){
-    console.log('2')
     sql = `select * from climate where (propertyaddressfull LIKE '${addr}%' OR propertyaddressfull LIKE '%${addr}%' OR propertyaddressfull LIKE '%${addr}');`
   } else if(req.body.zipCode && req.body.addressC){
     sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}' AND (propertyaddressfull LIKE '${addr}%' OR propertyaddressfull LIKE '%${addr}%' OR propertyaddressfull LIKE '%${addr}');`
   }
-  console.log('Query',sql)
-  console.log('Addr',addr)
+  // console.log('Query',sql)
   pool.query(sql, (err, results) => {
       if (err) {
           throw err;
       } else {
-        res.json(results.rows);
+        // res.json(results.rows);
+        setTimeout(()=>{
+          res.render("Main", {
+            path: results.rows,
+            helper:helper
+          });
+        })
       }
   })
 })
