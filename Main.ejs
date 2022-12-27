@@ -1,0 +1,126 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+
+
+<body class=" allelements">
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      font-size: 20px;
+      table-layout: fixed;
+    }
+
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqgZXdzQBgmeEb_2qniK2Js3abzYdIshg&callback=initMap">
+    </script>
+  <script>
+    // navigator.geolocation.getCurrentPosition(
+    //   function () {
+    //     initMap(39.248898, -104.968567);
+    //   },
+    //   function errorCallback(error) {
+    //     console.log(error);
+    //   }
+    // );
+
+    // function initMap(lat, lng) {
+    //   var myLatLng = {
+    //     // lat: 39.248898,
+    //     // lng: -104.968567,
+    //     lat,
+    //     lng
+    //   };
+    //   var map = new google.maps.Map(document.getElementById("map"), {
+    //     zoom: 15,
+    //     center: myLatLng,
+    //   });
+    //   var marker = new google.maps.Marker({
+    //     position: myLatLng,
+    //     map: map,
+    //   });
+    // }
+  </script>
+  <div>
+    <div id="map" style="width: 700px; height: 360px;">
+    </div>
+    <table class="center">
+      <tr>
+        <th>Console Data</th>
+        <th>latitude</th>
+        <th>Longitude</th>
+        <th>Address</th>
+        <th>Street Name</th>
+        <th>City Name</th>
+        <th>ZIP Code</th>
+        <th>Heat Risk</th>
+        <th>Storm Risk</th>
+        <th>Wild Fire Risk</th>
+        <th>Drought Score</th>
+        <th>Flood Risk</th>
+        <th>Total Risk</th>
+      </tr>
+      <%path.forEach(function(details){%>
+        <tr style="text-align:center;">
+          <td>
+            <%= function (lat, lng) { var myLatLng={ lat: details.propertylatitude, lng: details.propertylongitude}; var
+              div=document.createElement('div'); var map=new google.maps.Map(div.innerHTML, { zoom: 15, center:
+              myLatLng, }); var marker=new google.maps.Marker({ position: myLatLng, map: map, }); } %>
+              <div id="map" style="width: 700px; height: 360px;">
+              </div>
+          </td>
+          <td>
+            <%= details.propertylatitude %>
+          </td>
+          <td>
+            <%= details.propertylongitude %>
+          </td>
+          <td>
+            <%= details.propertyaddressfull %>
+          </td>
+          <td>
+            <%= details.propertyaddressstreetname %>
+          </td>
+          <td>
+            <%= details.propertyaddresscity %>
+          </td>
+          <td>
+            <%= details.propertyaddresszip %>
+          </td>
+          <td>
+            <%= details.heatriskscore %>
+          </td>
+          <td>
+            <%= details.stormriskscore %>
+          </td>
+          <td>
+            <%= details.wildfireriskscore %>
+          </td>
+          <td>
+            <%= details.droughtriskscore %>
+          </td>
+          <td>
+            <%= details.floodriskscore %>
+          </td>
+          <td>
+            <%= details.totalrisk %>
+          </td>
+        </tr>
+        <%})%>
+    </table>
+  </div>
+  </div>
+</body>
+
+</html>
