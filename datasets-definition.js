@@ -1,5 +1,5 @@
 TransactionID
-[ATTOM ID]
+ATTOMID
 DocumentRecordingStateCode
 DocumentRecordingCountyName
 DocumentRecordingJurisdictionName
