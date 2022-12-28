@@ -37,7 +37,7 @@ FloodDepthFuture VARCHAR(10),
 FloodChanceFuture VARCHAR(10),
 FloodFemaRisk VARCHAR(50),
 FloodRiskScore VARCHAR(10),
-TotalRisk VARCHAR(10),
+TotalRisk VARCHAR(10)
 );
 
 
