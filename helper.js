@@ -46,9 +46,52 @@ isEmpty = obj => {
   return Object.keys(obj).length === 0;
 }
 
-getGeoLocation = (lat , lng) =>{
-  console.log(`Latitude => ${lat} , Langitude => ${lng}`)
-  // initMap(lat , lng)
+getGeoLocation = (lat , lng , score) =>{
+  // isWithinRange(lat , lng ,35.288092 , -80.777155 , range = 1000 , score)
+  isWithinRange(lat , lng ,39.248898 , -104.968567 , range = 1000 , score)
+}
+
+// 7847 INCA RD
+
+// let lat1 = 39.248898
+// let lon1 = -104.968567
+// let lat2 = 35.288092
+// let lon2 = -80.777155
+// isWithinRange=()=> {
+//Haversine Formula
+isWithinRange=(lat1, lon1, lat2, lon2, range , score)=> {
+  let isInrange = ''
+  let rangeName = ''
+  const R = 6371e3; // earth's radius in meters
+  const φ1 = lat1 * Math.PI / 180;
+  const φ2 = lat2 * Math.PI / 180;
+  const Δφ = (lat2 - lat1) * Math.PI / 180;
+  const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+  if(score <19){
+    rangeName = 'Low'
+  } else if( score < 39){
+    rangeName = 'Significant'
+  }else if( score < 59){
+    rangeName = 'High'
+  }else if( score < 79){
+    rangeName = 'Very High'
+  } else{
+    rangeName = 'Extreme'
+  }
+
+if (distance < range) {
+  isInrange = `Near the Hazard Area & Impact in that area is ${rangeName}`
+} else {
+  isInrange = `Far from Hazard Area & no effect`
+}
+  console.log( isInrange , distance)
+  return distance;
 }
 
 // function getLoc(lat , lng){

@@ -41,10 +41,8 @@ TotalRisk VARCHAR(10)
 );
 
 
-select * from climate where propertyaddresszip = '80118' AND (propertyaddressfull LIKE 'INCA%' OR propertyaddressfull LIKE '%INCA%' OR propertyaddressfull LIKE '%INCA');
+select * from climate where propertyaddresszip = '80118' AND (propertyaddressfull ILIKE 'INCA%' OR propertyaddressfull ILIKE '%INCA%' OR propertyaddressfull ILIKE '%INCA');
 
-select * from climate where (propertyaddressfull LIKE 'INCA%' OR propertyaddressfull LIKE '%INCA%' OR propertyaddressfull LIKE '%INCA');
+select * from climate where (propertyaddressfull ILIKE 'INCA%' OR propertyaddressfull ILIKE '%INCA%' OR propertyaddressfull ILIKE '%INCA');
 
-AIzaSyC_B1siYvw5e_x0n-YNDU5azUeWbj5HBGg
-
-AIzaSyAqgZXdzQBgmeEb_2qniK2Js3abzYdIshg
+select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('INCA')

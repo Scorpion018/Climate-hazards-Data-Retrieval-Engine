@@ -32,23 +32,30 @@ app.get("/", (req, res) => {
 app.post('/climate', (req, res) => {
 let addr = ''
 if(req.body.addressC){
-  addr = req.body.addressC.toUpperCase()
+  addr = req.body.addressC
+  // addr = req.body.addressC.toUpperCase()
 }
+console.log('More than 1 word? ',addr.trim().indexOf(' ') != -1 )
+
+// select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('INCA')
   let sql = ``
   if(req.body.zipCode && req.body.addressC === ''){
     sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}'`
   } else if(req.body.addressC && req.body.zipCode === ''){
-    sql = `select * from climate where (propertyaddressfull LIKE '${addr}%' OR propertyaddressfull LIKE '%${addr}%' OR propertyaddressfull LIKE '%${addr}');`
+    sql = `select * from climate where propertyaddressfull ILIKE '${addr}%' OR propertyaddressfull ILIKE '%${addr}%' OR propertyaddressfull ILIKE '%${addr}';`
+    // sql = `select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}')`
   } else if(req.body.zipCode && req.body.addressC){
-    sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}' AND (propertyaddressfull LIKE '${addr}%' OR propertyaddressfull LIKE '%${addr}%' OR propertyaddressfull LIKE '%${addr}');`
+    sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}' AND (propertyaddressfull ILIKE '${addr}%' OR propertyaddressfull ILIKE '%${addr}%' OR propertyaddressfull ILIKE '%${addr}');`
+    // sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}' AND (to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}'));`
   }
-  // console.log('Query',sql)
+  console.log('Query',sql)
   pool.query(sql, (err, results) => {
       if (err) {
           throw err;
       } else {
-        // res.json(results.rows);
         setTimeout(()=>{
+          console.log(results.rows.length)
+          // res.json(results)
           res.render("Main", {
             path: results.rows,
             helper:helper
