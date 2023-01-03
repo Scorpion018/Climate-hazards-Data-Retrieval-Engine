@@ -39,16 +39,18 @@ console.log('More than 1 word? ',addr.trim().indexOf(' ') != -1 )
 
 // select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('INCA')
   let sql = ``
+  let asql
   if(req.body.zipCode && req.body.addressC === ''){
     sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}'`
   } else if(req.body.addressC && req.body.zipCode === ''){
     sql = `select * from climate where propertyaddressfull ILIKE '${addr}%' OR propertyaddressfull ILIKE '%${addr}%' OR propertyaddressfull ILIKE '%${addr}';`
-    // sql = `select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}')`
+    asql = `select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}')`
   } else if(req.body.zipCode && req.body.addressC){
     sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}' AND (propertyaddressfull ILIKE '${addr}%' OR propertyaddressfull ILIKE '%${addr}%' OR propertyaddressfull ILIKE '%${addr}');`
-    // sql = `select * from climate where propertyaddresszip = '${req.body.zipCode}' AND (to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}'));`
+    asql = `select * from climate where to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}') and propertyaddresszip = '${req.body.zipCode}' AND (to_tsvector(propertyaddressfull) @@ to_tsquery('${req.body.addressC}'));`
   }
   console.log('Query',sql)
+
   pool.query(sql, (err, results) => {
       if (err) {
           throw err;
